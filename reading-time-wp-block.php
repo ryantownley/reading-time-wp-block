@@ -22,9 +22,9 @@ function rt_register_reading_time_block() {
     // Register block editor script
     wp_register_script(
         'rt-reading-time-block-script',
-        plugins_url( 'blocks/rt-reading-time-block.js', __FILE__ ),
+        plugins_url( 'rt-reading-time-block.js', __FILE__ ),
         array('wp-blocks', 'wp-element', 'wp-editor'),
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/rt-reading-time-block.js' )
+        filemtime( plugin_dir_path( __FILE__ ) . 'rt-reading-time-block.js' )
     );
 
     // Register block type
