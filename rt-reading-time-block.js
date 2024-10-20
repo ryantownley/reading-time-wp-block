@@ -27,6 +27,9 @@
             const { attributes, setAttributes } = props;
             const { label, postfix, postfixSingular } = attributes;
 
+            // Construct preview text using a placeholder
+            const previewText = `${label ? label + ' ' : ''}# ${postfix}`;
+
             return [
                 el(
                     InspectorControls,
@@ -65,8 +68,8 @@
                 ),
                 el(
                     'p',
-                    { className: 'rt-reading-time-block' },
-                    __( 'Reading time will be calculated dynamically.', 'reading-time-wp-block' )
+                    { className: 'rt-reading-time' },
+                    previewText
                 )
             ];
         },

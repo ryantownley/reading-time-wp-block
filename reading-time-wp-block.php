@@ -54,7 +54,7 @@ function rt_register_reading_time_block() {
 // Add inline CSS for the block editor
 function rt_add_inline_editor_css() {
     echo '<style>
-        .rt-reading-time {
+        p.rt-reading-time {
             margin: 0;
         }
     </style>';
@@ -74,14 +74,15 @@ function rt_render_reading_time_block($attributes) {
     $postfix = isset($attributes['postfix']) ? $attributes['postfix'] : 'min read';
     $postfix_singular = isset($attributes['postfixSingular']) ? $attributes['postfixSingular'] : 'min read';
 
-    // Use the existing shortcode with post ID
-    $reading_time_output = do_shortcode(
-        '[rt_reading_time label="' . esc_attr($label) . '" post_id="' . $post->ID . '" postfix="' . esc_attr($postfix) . '" postfix_singular="' . esc_attr($postfix_singular) . '"]'
-    );
+    // Construct the shortcode
+    $shortcode = '[rt_reading_time label="' . esc_attr( $label ) . '" post_id="' . $post->ID . '" postfix="' . esc_attr( $postfix ) . '" postfix_singular="' . esc_attr( $postfix_singular ) . '"]';
 
-    // Add editor context detection
-    $is_editor = ( defined( 'REST_REQUEST' ) && REST_REQUEST );
-    $css_class = $is_editor ? 'rt-reading-time editor-visual' : 'rt-reading-time';
+    // If in the block editor, return a static preview
+    $is_editor = defined( 'REST_REQUEST' ) && REST_REQUEST;
+    if ( $is_editor ) {
+        return '<div class="rt-reading-time">Reading time will appear here.</div>';
+    }
 
-    return '<div class="' . esc_attr($css_class) . '">' . $reading_time_output . '</div>';
+    // Render the shortcode on the front end
+    return '<div class="rt-reading-time">' . do_shortcode( $shortcode ) . '</div>';
 }
